@@ -62,6 +62,7 @@ namespace schema {
 			case 'dashboard/toolbar': return MenuId.DashboardToolbar;
 			case 'timeline/title': return MenuId.TimelineTitle;
 			case 'timeline/item/context': return MenuId.TimelineItemContext;
+			case 'explorerWidget/context': return MenuId.ExplorerWidgetContext;
 		}
 
 		return undefined;

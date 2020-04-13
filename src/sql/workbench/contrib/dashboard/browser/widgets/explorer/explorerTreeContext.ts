@@ -20,11 +20,11 @@ export interface IContextValue {
 
 export class ItemContextKey extends Disposable implements IContextKey<IContextValue> {
 
-	static readonly ItemType = new RawContextKey<string>('itemType', undefined);
+	static readonly ItemType = new RawContextKey<string>('nodeType', undefined);
 	static readonly Item = new RawContextKey<IContextValue>('item', undefined);
-	static readonly ConnectionProvider = new RawContextKey<string>('provider', undefined);
+	static readonly ConnectionProvider = new RawContextKey<string>('connectionProvider', undefined);
 	static readonly IsCloud = new RawContextKey<boolean>('isCloud', undefined);
-	static readonly EngineEdition = new RawContextKey<number>('engineEdition', undefined);
+	static readonly EngineEdition = new RawContextKey<number>('mssql:engineedition', undefined);
 
 	private _itemTypeKey: IContextKey<string>;
 	private _itemKey: IContextKey<IContextValue>;
@@ -46,7 +46,7 @@ export class ItemContextKey extends Disposable implements IContextKey<IContextVa
 
 	set(value: IContextValue) {
 		this._itemKey.set(value);
-		this._connectionProviderKey.set(value.providerName.toLowerCase());
+		this._connectionProviderKey.set(value.providerName);
 		this._isCloudKey.set(value.isCloud);
 		this._engineEditionKey.set(value.engineEdition);
 		if (value.resource instanceof ObjectMetadataWrapper) {
@@ -58,14 +58,14 @@ export class ItemContextKey extends Disposable implements IContextKey<IContextVa
 					this._itemTypeKey.set('sproc');
 					break;
 				case MetadataType.Table:
-					this._itemTypeKey.set('table');
+					this._itemTypeKey.set('Table');
 					break;
 				case MetadataType.View:
-					this._itemTypeKey.set('view');
+					this._itemTypeKey.set('View');
 					break;
 			}
 		} else {
-			this._itemTypeKey.set('database');
+			this._itemTypeKey.set('Database');
 		}
 	}
 

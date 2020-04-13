@@ -47,7 +47,10 @@ export class OEAction extends ExecuteCommandAction {
 		this._treeSelectionHandler = this._instantiationService.createInstance(TreeSelectionHandler);
 
 		let profile: IConnectionProfile;
-		if (actionContext instanceof ObjectExplorerActionsContext) {
+		if (actionContext instanceof ConnectionProfile) {
+			profile = actionContext;
+		}
+		else if (actionContext instanceof ObjectExplorerActionsContext) {
 			if (actionContext.isConnectionNode) {
 				profile = new ConnectionProfile(this._capabilitiesService, actionContext.connectionProfile);
 			} else {

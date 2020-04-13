@@ -83,7 +83,7 @@ export class ExplorerController extends TreeDefaults.DefaultController {
 			engineEdition: this.bootStrapService.connectionManagementService.connectionInfo.serverInfo.engineEditionId
 		});
 
-		let context: ManageActionContext | BaseActionContext;
+		let context: ManageActionContext | BaseActionContext | IConnectionProfile;
 
 		if (element instanceof ObjectMetadataWrapper) {
 			context = {
@@ -91,13 +91,10 @@ export class ExplorerController extends TreeDefaults.DefaultController {
 				profile: this._connectionService.connectionInfo.connectionProfile
 			};
 		} else {
-			context = {
-				profile: element,
-				uri: this._uri
-			};
+			context = element;
 		}
 
-		const menu = this.menuService.createMenu(MenuId.ExplorerWidgetContext, this.contextKeyService);
+		const menu = this.menuService.createMenu(MenuId.ObjectExplorerItemContext, this.contextKeyService);
 		const primary: IAction[] = [];
 		const secondary: IAction[] = [];
 		const result = { primary, secondary };
@@ -106,7 +103,9 @@ export class ExplorerController extends TreeDefaults.DefaultController {
 		this.contextMenuService.showContextMenu({
 			getAnchor: () => { return { x: event.posx, y: event.posy }; },
 			getActions: () => result.secondary,
-			getActionsContext: () => context
+			getActionsContext: () => {
+				return context;
+			}
 		});
 
 		return true;
